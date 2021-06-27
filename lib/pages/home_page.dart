@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
+import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/widget/home_swipper.dart';
+import 'package:flutter_trip/widget/local_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String resultString = '';
+  List<CommonModel> bannerList = [];
+  List<CommonModel> localNavList = [];
 
   @override
   void initState() {
@@ -30,27 +32,33 @@ class _HomePageState extends State<HomePage> {
     //     resultString = e.toString();
     //   });
     // });
-    // try {
+    try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.toJson());
+        bannerList = model.bannerList;
+        localNavList = model.localNavList;
       });
-    // } catch(e) {
-    //   setState(() {
-    //     resultString = e.toString();
-    //   });
-    // }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('home'),
-      ),
-        body: Container(
-          child: Text(resultString),
-        ),
+      backgroundColor: Color(0xfff2f2f2),
+      body: MediaQuery.removePadding(
+        removeTop: true,
+          context: context,
+          child: ListView(
+            children: [
+              HomeSwipper(bannerList: bannerList),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                child: LocalNav(localNavList: localNavList),
+              )
+            ],
+          )),
     );
   }
 }
