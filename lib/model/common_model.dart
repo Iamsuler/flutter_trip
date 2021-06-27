@@ -1,9 +1,9 @@
 class CommonModel {
-  final String icon;
-  final String title;
-  final String url;
-  final String statusBarColor;
-  final bool hideAppBar;
+  final String? icon;
+  final String? title;
+  final String? url;
+  final String? statusBarColor;
+  final bool? hideAppBar;
 
   CommonModel(
       {required this.icon,
@@ -20,4 +20,12 @@ class CommonModel {
         statusBarColor: json['statusBarColor'],
         hideAppBar: json['hideAppBar']);
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'icon': icon,
+    'title': title,
+    'url': url,
+    'statusBarColor': statusBarColor,
+    'hideAppBar': hideAppBar,
+  };
 }

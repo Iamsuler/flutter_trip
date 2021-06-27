@@ -40,4 +40,13 @@ class HomeModel {
         subNavList: subNavList,
         salesBox: SalesBoxModel.fromJson(json['salesBox']));
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'config': config,
+    'bannerList': bannerList,
+    'localNavList': localNavList,
+    'gridNav': gridNav,
+    'subNavList': subNavList,
+    'salesBox': salesBox,
+  };
 }

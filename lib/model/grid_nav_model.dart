@@ -14,6 +14,12 @@ class GridNavModel {
         flight: GridNavItem.fromJson(json['flight']),
         travel: GridNavItem.fromJson(json['travel']));
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'hotel': hotel.toJson(),
+    'flight': flight.toJson(),
+    'travel': travel.toJson()
+  };
 }
 
 class GridNavItem {
@@ -44,4 +50,14 @@ class GridNavItem {
         item3: CommonModel.fromJson(json['item3']),
         item4: CommonModel.fromJson(json['item4']));
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'startColor': startColor,
+    'endColor': endColor,
+    'mainItem': mainItem.toJson(),
+    'item1': item1.toJson(),
+    'item2': item2.toJson(),
+    'item3': item3.toJson(),
+    'item4': item4.toJson(),
+  };
 }

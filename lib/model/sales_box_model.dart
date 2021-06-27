@@ -26,9 +26,20 @@ class SalesBoxModel {
         moreUrl: json['moreUrl'],
         bigCard1: CommonModel.fromJson(json['bigCard1']),
         bigCard2: CommonModel.fromJson(json['bigCard2']),
-        smallCard1: CommonModel.fromJson(json['bigCard1']),
-        smallCard2: CommonModel.fromJson(json['bigCard2']),
-        smallCard3: CommonModel.fromJson(json['bigCard3']),
-        smallCard4: CommonModel.fromJson(json['bigCard4']));
+        smallCard1: CommonModel.fromJson(json['smallCard1']),
+        smallCard2: CommonModel.fromJson(json['smallCard2']),
+        smallCard3: CommonModel.fromJson(json['smallCard3']),
+        smallCard4: CommonModel.fromJson(json['smallCard4']));
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'icon': icon,
+    'moreUrl': moreUrl,
+    'bigCard1': bigCard1.toJson(),
+    'bigCard2': bigCard2.toJson(),
+    'smallCard1': smallCard1.toJson(),
+    'smallCard2': smallCard2.toJson(),
+    'smallCard3': smallCard3.toJson(),
+    'smallCard4': smallCard4.toJson(),
+  };
 }
