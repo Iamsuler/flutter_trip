@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/model/common_model.dart';
-import 'package:flutter_trip/widget/webview.dart';
+import 'package:flutter_trip/widget/webviewer.dart';
 
 class LocalNav extends StatelessWidget {
   const LocalNav({Key? key, required this.localNavList}) : super(key: key);
@@ -34,7 +34,7 @@ class LocalNav extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => WebView(
+                builder: (context) => WebViewer(
                     url: model.url!,
                     statusBarColor: model.statusBarColor!,
                     title: model.title!,

@@ -3,6 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
+// ignore: prefer_collection_literals
+final Set<JavascriptChannel> jsChannels = [
+  JavascriptChannel(
+      name: 'Print',
+      onMessageReceived: (JavascriptMessage message) {
+        print(message.message);
+      }),
+].toSet();
+
 class WebView extends StatefulWidget {
   late final String url;
   final String? statusBarColor;
@@ -28,7 +37,8 @@ class _WebViewState extends State<WebView> {
   late StreamSubscription<String> _onUrlChanged;
   late StreamSubscription<WebViewStateChanged> _onStateChanged;
   late StreamSubscription<WebViewHttpError> _onHttpError;
-  late StreamSubscription<double> _onProgressChanged;
+  // late StreamSubscription<double> _onProgressChanged;
+  late StreamSubscription<Null> _onDestroy;
 
   @override
   void initState() {
@@ -40,23 +50,30 @@ class _WebViewState extends State<WebView> {
     });
     _onStateChanged =
         webViewReference.onStateChanged.listen((WebViewStateChanged state) {
-          print('state.type: ${state.type}');
+      print('state.type: ${state.type}');
     });
     _onHttpError =
         webViewReference.onHttpError.listen((WebViewHttpError error) {
       print(error);
     });
-    _onProgressChanged = webViewReference.onProgressChanged.listen((double progress) {
-      print('progress: $progress');
+    // _onProgressChanged = webViewReference.onProgressChanged.listen((double progress) {
+    //   print('progress: $progress');
+    // });
+    _onDestroy = webViewReference.onDestroy.listen((_) {
+      if (Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
     });
   }
 
   @override
   void dispose() {
+    print('dispose');
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
     _onHttpError.cancel();
-    _onProgressChanged.cancel();
+    // _onProgressChanged.cancel();
+    _onDestroy.cancel();
     webViewReference.dispose();
 
     super.dispose();
@@ -75,18 +92,22 @@ class _WebViewState extends State<WebView> {
         children: [
           _appBar(Color(int.parse('0xff$statusBarColorStr')), backButtonColor),
           Expanded(
-              child: WebviewScaffold(
-            url: widget.url,
-            withZoom: true,
-            withLocalStorage: true,
-            hidden: true,
-            initialChild: Container(
-              color: Colors.white,
-              child: Center(
-                child: Text('waiting...'),
-              ),
-            ),
-          ))
+              child:  WebviewScaffold(
+                url: 'https://m.liuxue86.com/sitemap.html',
+                appBar: new AppBar(
+                  title: const Text('Widget webview'),
+                ),
+                withZoom: true,
+                withLocalStorage: true,
+                hidden: true,
+                initialChild: Container(
+                  color: Colors.redAccent,
+                  child: const Center(
+                    child: Text('Waiting.....'),
+                  ),
+                ),
+              )
+          )
         ],
       ),
     );
