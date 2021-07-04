@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-final Uri homeUrl = Uri(scheme: 'https', host: 'apk-1256738511.cos.ap-chengdu.myqcloud.com', path: 'FlutterTrip/data/home_page.json');
+final Uri homeUrl = Uri(scheme: 'https', host: 'www.devio.org', path: '/io/flutter_app/json/home_page.json');
 
 class HomeDao {
   static Future<HomeModel> fetch() async {
