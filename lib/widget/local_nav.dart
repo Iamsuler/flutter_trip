@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/model/common_model.dart';
+import 'package:flutter_trip/widget/webview.dart';
 
 class LocalNav extends StatelessWidget {
   const LocalNav({Key? key, required this.localNavList}) : super(key: key);
@@ -11,13 +12,15 @@ class LocalNav extends StatelessWidget {
     return Container(
       height: 70,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5))
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _buildNavList(context),
+        ),
       ),
-      child: Padding(padding: EdgeInsets.fromLTRB(10, 5, 10, 5), child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _buildNavList(context),
-      ),),
     );
   }
 
@@ -27,7 +30,16 @@ class LocalNav extends StatelessWidget {
 
   Widget _buildNavItem(BuildContext context, CommonModel model) {
     return GestureDetector(
-      onTap: null,
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebView(
+                    url: model.url!,
+                    statusBarColor: model.statusBarColor!,
+                    title: model.title!,
+                    hideAppBar: model.hideAppBar!)));
+      },
       child: Column(
         children: [
           Image.network(
