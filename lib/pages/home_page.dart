@@ -3,9 +3,11 @@ import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/model/sales_box_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
+import 'package:flutter_trip/widget/sales_box.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> localNavList = [];
   GridNavModel? gridNav;
   List<CommonModel> subNavList = [];
+  SalesBoxModel? sablesBox;
 
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _HomePageState extends State<HomePage> {
         bannerList = model.bannerList;
         localNavList = model.localNavList;
         subNavList = model.subNavList;
+        sablesBox = model.salesBox;
       });
     } catch (e) {
       print(e);
@@ -66,7 +70,8 @@ class _HomePageState extends State<HomePage> {
                 child: LocalNav(localNavList: localNavList),
               ),
               GridNav(gridNav: gridNav),
-              SubNav(subNavList: subNavList)
+              SubNav(subNavList: subNavList),
+              SalesBox(salesBox: sablesBox!,)
             ],
           )),
     );
