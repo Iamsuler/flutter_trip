@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
 
@@ -51,12 +52,14 @@ class _HomePageState extends State<HomePage> {
         removeTop: true,
           context: context,
           child: ListView(
+            shrinkWrap: true,
             children: [
               HomeSwipper(bannerList: bannerList),
               Padding(
                   padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                 child: LocalNav(localNavList: localNavList),
-              )
+              ),
+              GridNav()
             ],
           )),
     );
