@@ -6,6 +6,7 @@ import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
+import 'package:flutter_trip/widget/sub_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> bannerList = [];
   List<CommonModel> localNavList = [];
   GridNavModel? gridNav;
+  List<CommonModel> subNavList = [];
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
         gridNav = model.gridNav;
         bannerList = model.bannerList;
         localNavList = model.localNavList;
+        subNavList = model.subNavList;
       });
     } catch (e) {
       print(e);
@@ -62,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                 child: LocalNav(localNavList: localNavList),
               ),
-              GridNav(gridNav: gridNav)
+              GridNav(gridNav: gridNav),
+              SubNav(subNavList: subNavList)
             ],
           )),
     );

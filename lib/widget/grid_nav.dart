@@ -39,8 +39,8 @@ class GridNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        left: 10,
-        right: 10
+        left: 7,
+        right: 7
       ),
       margin: EdgeInsets.only(top: 5),
       child: ClipRRect(
