@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'common_model.dart';
 
 class GridNavModel {
@@ -16,48 +18,56 @@ class GridNavModel {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-    'hotel': hotel.toJson(),
-    'flight': flight.toJson(),
-    'travel': travel.toJson()
-  };
+        'hotel': hotel.toJson(),
+        'flight': flight.toJson(),
+        'travel': travel.toJson()
+      };
+  
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }
 
 class GridNavItem {
   final String startColor;
   final String endColor;
-  final CommonModel mainItem;
-  final CommonModel item1;
-  final CommonModel item2;
-  final CommonModel item3;
-  final CommonModel item4;
+  final List<CommonModel> list;
 
   GridNavItem(
-      {required this.startColor,
-      required this.endColor,
-      required this.mainItem,
-      required this.item1,
-      required this.item2,
-      required this.item3,
-      required this.item4});
+      {required this.startColor, required this.endColor, required this.list});
 
   factory GridNavItem.fromJson(Map<String, dynamic> json) {
+    List<CommonModel> list = [];
+    if(json['mainItem'] != null) {
+      list.add(new CommonModel.fromJson(json['mainItem']));
+    }
+    if(json['item1'] != null) {
+      list.add(new CommonModel.fromJson(json['item1']));
+    }
+    if(json['item2'] != null) {
+      list.add(new CommonModel.fromJson(json['item2']));
+    }
+    if(json['item3'] != null) {
+      list.add(new CommonModel.fromJson(json['item3']));
+    }
+    if(json['item4'] != null) {
+      list.add(new CommonModel.fromJson(json['item4']));
+    }
     return GridNavItem(
-        startColor: json['startColor'],
-        endColor: json['endColor'],
-        mainItem: CommonModel.fromJson(json['mainItem']),
-        item1: CommonModel.fromJson(json['item1']),
-        item2: CommonModel.fromJson(json['item2']),
-        item3: CommonModel.fromJson(json['item3']),
-        item4: CommonModel.fromJson(json['item4']));
+        startColor: json['startColor'], endColor: json['endColor'], list: list);
   }
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    'startColor': startColor,
-    'endColor': endColor,
-    'mainItem': mainItem.toJson(),
-    'item1': item1.toJson(),
-    'item2': item2.toJson(),
-    'item3': item3.toJson(),
-    'item4': item4.toJson(),
-  };
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'startColor': startColor,
+      'endColor': endColor,
+      'list': list
+    };
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }
