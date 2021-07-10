@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
+import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CommonModel> bannerList = [];
   List<CommonModel> localNavList = [];
+  GridNavModel? gridNav;
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
+        gridNav = model.gridNav;
         bannerList = model.bannerList;
         localNavList = model.localNavList;
       });
@@ -59,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                 child: LocalNav(localNavList: localNavList),
               ),
-              GridNav()
+              GridNav(gridNav: gridNav)
             ],
           )),
     );
