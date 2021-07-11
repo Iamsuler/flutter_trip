@@ -5,6 +5,7 @@ import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
+import 'package:flutter_trip/widget/home_search_bar.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
@@ -25,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> subNavList = [];
   SalesBoxModel? sablesBox;
   bool isLoading = true;
+  double appBarAlpha = 1.0;
+
+  static const int APPBAR_SCROLL_OFFSET = 100;
 
   @override
   void initState() {
@@ -65,26 +69,57 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color(0xfff2f2f2),
       body: LoadingContainer(
         isLoading: isLoading,
-        child: MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  HomeSwipper(bannerList: bannerList),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                    child: LocalNav(localNavList: localNavList),
+        child: Stack(
+          children: [
+            MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: NotificationListener(
+                    onNotification: (scrollNotification) {
+                      if(scrollNotification is ScrollNotification
+                        && scrollNotification.depth == 0
+                      ) {
+                        _onScroll(scrollNotification.metrics.pixels);
+                      }
+
+                      return false;
+                    },
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        HomeSwipper(bannerList: bannerList),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                          child: LocalNav(localNavList: localNavList),
+                        ),
+                        GridNav(gridNav: gridNav),
+                        SubNav(subNavList: subNavList),
+                        SalesBox(
+                          salesBox: sablesBox!,
+                        )
+                      ],
+                    ),
                   ),
-                  GridNav(gridNav: gridNav),
-                  SubNav(subNavList: subNavList),
-                  SalesBox(salesBox: sablesBox!,)
-                ],
-              ),
-            )),
+                )),
+            HomeSearchBar(appBarAlpha: appBarAlpha,)
+          ],
+        ),
       ),
     );
+  }
+
+  void _onScroll(double pixels) {
+    double alpha = pixels / APPBAR_SCROLL_OFFSET;
+    if (alpha < 0) {
+      alpha = 0;
+    } else if (alpha > 1) {
+      alpha = 1;
+    }
+
+    setState(() {
+      appBarAlpha = alpha;
+    });
   }
 }
