@@ -9,17 +9,17 @@ const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5'];
 
 class WebViewer extends StatefulWidget {
   late final String url;
-  final String? statusBarColor;
-  final String? title;
-  final bool? hideAppBar;
+  final String statusBarColor;
+  final String title;
+  final bool hideAppBar;
   final bool backForbid;
 
   WebViewer(
       {Key? key,
       required this.url,
-      required this.statusBarColor,
-      required this.title,
-      required this.hideAppBar,
+      this.statusBarColor = 'ffffff',
+      this.title = '',
+      this.hideAppBar = false,
       this.backForbid = false })
       : super(key: key);
 
@@ -47,9 +47,8 @@ class _WebViewerState extends State<WebViewer> {
 
   @override
   Widget build(BuildContext context) {
-    final String defaultStatusBarColorStr = 'ffffff';
-    String statusBarColorStr =
-        widget.statusBarColor ?? defaultStatusBarColorStr;
+    const String defaultStatusBarColorStr = 'ffffff';
+    String statusBarColorStr = widget.statusBarColor;
     Color backButtonColor = statusBarColorStr == defaultStatusBarColorStr
         ? Colors.black
         : Colors.white;
@@ -97,7 +96,7 @@ class _WebViewerState extends State<WebViewer> {
   }
 
   Widget _appBar(Color backgroundColor, Color backButtonColor) {
-    if (widget.hideAppBar ?? false) {
+    if (widget.hideAppBar) {
       return Container(
         color: backgroundColor,
         height: 30,
@@ -123,7 +122,7 @@ class _WebViewerState extends State<WebViewer> {
               right: 0,
               child: Center(
                 child: Text(
-                  widget.title ?? '',
+                  widget.title,
                   style: TextStyle(fontSize: 20, color: backButtonColor),
                 ),
               ),

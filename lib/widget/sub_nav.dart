@@ -51,9 +51,8 @@ class SubNav extends StatelessWidget {
             context,
             WebViewer(
                 url: model.url!,
-                statusBarColor: model.statusBarColor,
-                title: model.title,
-                hideAppBar: model.hideAppBar
+                title: model.title!,
+                hideAppBar: model.hideAppBar!
             )
         );
       },

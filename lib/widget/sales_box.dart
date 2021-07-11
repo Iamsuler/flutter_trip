@@ -60,9 +60,9 @@ class SalesBox extends StatelessWidget {
             context,
             WebViewer(
                 url: model.url!,
-                statusBarColor: model.statusBarColor,
-                title: model.title,
-                hideAppBar: model.hideAppBar
+                statusBarColor: model.statusBarColor!,
+                title: model.title!,
+                hideAppBar: model.hideAppBar!
             )
         );
       },
@@ -128,7 +128,6 @@ class SalesBox extends StatelessWidget {
                     context,
                     WebViewer(
                         url: salesBox.moreUrl,
-                        statusBarColor: null,
                         title: '获取更多福利',
                         hideAppBar: false
                     )

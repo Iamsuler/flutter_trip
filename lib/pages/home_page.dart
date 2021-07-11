@@ -29,10 +29,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _handleRefresh();
   }
 
-  _loadData() async {
+  Future<void> _handleRefresh() async {
     // HomeDao.fetch().then((value) {
     //   setState(() {
     //     resultString = jsonEncode(value);
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     // });
     try {
       HomeModel model = await HomeDao.fetch();
+      print('loaded data.');
       setState(() {
         gridNav = model.gridNav;
         bannerList = model.bannerList;
@@ -67,18 +68,21 @@ class _HomePageState extends State<HomePage> {
         child: MediaQuery.removePadding(
             removeTop: true,
             context: context,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                HomeSwipper(bannerList: bannerList),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                  child: LocalNav(localNavList: localNavList),
-                ),
-                GridNav(gridNav: gridNav),
-                SubNav(subNavList: subNavList),
-                SalesBox(salesBox: sablesBox!,)
-              ],
+            child: RefreshIndicator(
+              onRefresh: _handleRefresh,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  HomeSwipper(bannerList: bannerList),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                    child: LocalNav(localNavList: localNavList),
+                  ),
+                  GridNav(gridNav: gridNav),
+                  SubNav(subNavList: subNavList),
+                  SalesBox(salesBox: sablesBox!,)
+                ],
+              ),
             )),
       ),
     );
