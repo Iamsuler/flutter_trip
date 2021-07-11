@@ -6,6 +6,7 @@ import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
+import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   GridNavModel? gridNav;
   List<CommonModel> subNavList = [];
   SalesBoxModel? sablesBox;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -48,8 +50,10 @@ class _HomePageState extends State<HomePage> {
         localNavList = model.localNavList;
         subNavList = model.subNavList;
         sablesBox = model.salesBox;
+        isLoading = false;
       });
     } catch (e) {
+      isLoading = false;
       print(e);
     }
   }
@@ -58,22 +62,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff2f2f2),
-      body: MediaQuery.removePadding(
-        removeTop: true,
-          context: context,
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              HomeSwipper(bannerList: bannerList),
-              Padding(
+      body: LoadingContainer(
+        isLoading: isLoading,
+        child: MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                HomeSwipper(bannerList: bannerList),
+                Padding(
                   padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                child: LocalNav(localNavList: localNavList),
-              ),
-              GridNav(gridNav: gridNav),
-              SubNav(subNavList: subNavList),
-              SalesBox(salesBox: sablesBox!,)
-            ],
-          )),
+                  child: LocalNav(localNavList: localNavList),
+                ),
+                GridNav(gridNav: gridNav),
+                SubNav(subNavList: subNavList),
+                SalesBox(salesBox: sablesBox!,)
+              ],
+            )),
+      ),
     );
   }
 }
