@@ -129,9 +129,9 @@ class GridNav extends StatelessWidget {
           colors: [startColor, endColor]
         )
       ),
-      child: StaggeredGridView.extentBuilder(
-          shrinkWrap: true,
-          maxCrossAxisExtent: 150,
+      height: 88,
+      child: StaggeredGridView.countBuilder(
+          crossAxisCount: 3,
           itemCount: _tiles.length,
           itemBuilder: (BuildContext context, int index) => _getChild(context, index, gridNavItem),
           staggeredTileBuilder: _getTile

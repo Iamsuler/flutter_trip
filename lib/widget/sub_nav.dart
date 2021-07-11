@@ -10,22 +10,27 @@ class SubNav extends StatelessWidget {
     Key? key,
     required this.subNavList
   }) : super(key: key);
+  static const int _crossAxisCount = 5;
+  static const double _singleRowHeight = 60;
+
+  get _containerHeight => (subNavList.length / _crossAxisCount).ceil() * _singleRowHeight;
+
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
         child: Container(
+          height: _containerHeight,
           alignment: Alignment.center,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(6)
           ),
           margin: EdgeInsets.only(top: 5),
-          // 有缺陷不能定列数，只能通过控制最大列宽度来算列数
-          child: StaggeredGridView.extentBuilder(
-              shrinkWrap: true,
-              maxCrossAxisExtent: 100,
+          child: StaggeredGridView.countBuilder(
+            shrinkWrap: true,
+              crossAxisCount: _crossAxisCount,
               itemCount: subNavList.length,
               itemBuilder: (BuildContext context, int index) => _buildItem(context, index),
               staggeredTileBuilder: _getTile
@@ -41,7 +46,7 @@ class SubNav extends StatelessWidget {
   }
 
   StaggeredTile _getTile(int index) {
-    return StaggeredTile.extent(1, 60);
+    return StaggeredTile.extent(1, _singleRowHeight);
   }
 
   _wrapGesture(BuildContext context, Widget widget, CommonModel model) {
