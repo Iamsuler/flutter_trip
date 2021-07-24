@@ -22,8 +22,8 @@ class SalesBoxModel {
       }
     });
     return SalesBoxModel(
-        icon: json['icon'],
-        moreUrl: json['moreUrl'],
+        icon: json['icon'] ?? '',
+        moreUrl: json['moreUrl'] ?? '',
         list: list);
   }
 
