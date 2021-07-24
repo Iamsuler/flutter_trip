@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> localNavList = [];
   GridNavModel? gridNav;
   List<CommonModel> subNavList = [];
-  SalesBoxModel? sablesBox;
+  SalesBoxModel sablesBox = SalesBoxModel.fromJson({});
   bool isLoading = true;
   double appBarAlpha = 1.0;
 
@@ -97,8 +97,8 @@ class _HomePageState extends State<HomePage> {
                         GridNav(gridNav: gridNav),
                         SubNav(subNavList: subNavList),
                         SalesBox(
-                          salesBox: sablesBox!,
-                        )
+                          salesBox: sablesBox,
+                        ),
                       ],
                     ),
                   ),
