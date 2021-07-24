@@ -24,7 +24,8 @@ const SEARCH_BAR_DEFAULT_TEXT = '网红打卡地 景点 酒店 美食';
 
 class SearchPage extends StatefulWidget {
   final String keyword;
-  const SearchPage({Key? key, this.keyword = ''}) : super(key: key);
+  final bool hideLeft;
+  const SearchPage({Key? key, this.keyword = '', this.hideLeft = false}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -48,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           SearchBar(
-            hideLeft: true,
+            hideLeft: widget.hideLeft,
             hintText: SEARCH_BAR_DEFAULT_TEXT,
             defaultText: widget.keyword,
             speakClick: _jumpToSpeak,

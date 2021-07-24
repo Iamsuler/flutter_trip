@@ -4,6 +4,8 @@ import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
+import 'package:flutter_trip/pages/search_page.dart';
+import 'package:flutter_trip/utils/navigator_util.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/home_search_bar.dart';
 import 'package:flutter_trip/widget/home_swipper.dart';
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> subNavList = [];
   SalesBoxModel sablesBox = SalesBoxModel.fromJson({});
   bool isLoading = true;
-  double appBarAlpha = 1.0;
+  double appBarAlpha = 0;
 
   static const int APPBAR_SCROLL_OFFSET = 100;
 
@@ -103,7 +105,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 )),
-            HomeSearchBar(appBarAlpha: appBarAlpha,)
+            HomeSearchBar(
+              inputBoxClick: _inputBoxClick,
+              appBarAlpha: appBarAlpha,
+            )
           ],
         ),
       ),
@@ -121,5 +126,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       appBarAlpha = alpha;
     });
+  }
+
+  void _inputBoxClick() {
+    NavigatorUtil.push(context, SearchPage());
   }
 }

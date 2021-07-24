@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class HomeSearchBar extends StatelessWidget {
   final double appBarAlpha;
-  const HomeSearchBar({Key? key, this.appBarAlpha = 0}) : super(key: key);
+  final void Function() inputBoxClick;
+  const HomeSearchBar({Key? key, required this.inputBoxClick, this.appBarAlpha = 0}) : super(key: key);
 
   int get _alpha => (appBarAlpha * 255).toInt();
   Color get _fontColor => appBarAlpha > 0.2 ? Colors.black54 : Colors.white;
@@ -61,7 +62,7 @@ class HomeSearchBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      _wrapGesture(Row(
                         children: [
                           Icon(
                             Icons.search,
@@ -76,7 +77,7 @@ class HomeSearchBar extends StatelessWidget {
                             ),
                           )
                         ],
-                      ),
+                      ), inputBoxClick),
                       Icon(
                         Icons.mic,
                         size: 20,
@@ -94,6 +95,13 @@ class HomeSearchBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _wrapGesture(Widget widget, void Function() callback) {
+    return GestureDetector(
+      onTap: callback,
+      child: widget,
     );
   }
 }
