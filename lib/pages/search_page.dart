@@ -23,22 +23,22 @@ const TYPES = [
 const SEARCH_BAR_DEFAULT_TEXT = '网红打卡地 景点 酒店 美食';
 
 class SearchPage extends StatefulWidget {
-  final String keywords;
-  const SearchPage({Key? key, this.keywords = ''}) : super(key: key);
+  final String keyword;
+  const SearchPage({Key? key, this.keyword = ''}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String keywords = '';
+  String keyword = '';
   SearchModel searchModel = SearchModel.fromJson({'data': []});
 
   @override
   void initState() {
     super.initState();
-    if (widget.keywords.isNotEmpty) {
-      _onTextChange(widget.keywords);
+    if (widget.keyword.isNotEmpty) {
+      _onTextChange(widget.keyword);
     }
   }
 
@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
           SearchBar(
             hideLeft: true,
             hintText: SEARCH_BAR_DEFAULT_TEXT,
-            defaultText: widget.keywords,
+            defaultText: widget.keyword,
             speakClick: _jumpToSpeak,
             onChanged: _onTextChange,
             rightButtonClick: () {
@@ -85,10 +85,13 @@ class _SearchPageState extends State<SearchPage> {
 
   void _onTextChange(String text) async {
     setState(() {
-      keywords = text;
+      keyword = text;
     });
 
     if (text.isEmpty) {
+      setState(() {
+        searchModel = SearchModel.fromJson({'data': []});
+      });
       return;
     }
 
@@ -97,10 +100,13 @@ class _SearchPageState extends State<SearchPage> {
 
   void _fetchData() async {
     try {
-      SearchModel model = await SearchDao.fetch(keyword: keywords);
-      setState(() {
-        searchModel = model;
-      });
+      SearchModel model = await SearchDao.fetch(keyword: keyword);
+      // TODO: 应该改用防抖解决输入引起多次请求
+      if(model.keyword == keyword) {
+        setState(() {
+          searchModel = model;
+        });
+      }
     } catch (error) {
       print(error);
     }
@@ -173,7 +179,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _title(SearchModelItem item) {
     List<TextSpan> spans = [];
-    spans.addAll(_keywordTextSpan(item.word, keywords));
+    spans.addAll(_keywordTextSpan(item.word, keyword));
     spans.add(TextSpan(
         text: ' ' + (item.districtname ?? '') + ' ',
         style: TextStyle(fontSize: 12, color: Colors.grey)));
@@ -193,25 +199,25 @@ class _SearchPageState extends State<SearchPage> {
     ]));
   }
 
-  List<TextSpan> _keywordTextSpan(String? word, String keywords) {
+  List<TextSpan> _keywordTextSpan(String? word, String keyword) {
     List<TextSpan> spans = [];
     if (word == null || word.length == 0) {
       return spans;
     }
 
     String wordLower = word.toLowerCase();
-    String keywordsLower = keywords.toLowerCase();
-    List<String> wordList = wordLower.split(keywordsLower);
+    String keywordLower = keyword.toLowerCase();
+    List<String> wordList = wordLower.split(keywordLower);
     TextStyle normalStyle = TextStyle(fontSize: 16, color: Colors.black87);
     TextStyle highlightStyle = TextStyle(fontSize: 16, color: Colors.orange);
 
     int preIndex = 0;
     for (int i = 0; i < wordList.length; i++) {
       if (i != 0) {
-        preIndex = wordList.indexOf(keywordsLower, preIndex);
+        preIndex = wordList.indexOf(keywordLower, preIndex);
         if(preIndex > 0) {
           spans.add(TextSpan(
-              text: word.substring(preIndex, preIndex + keywords.length),
+              text: word.substring(preIndex, preIndex + keyword.length),
               style: highlightStyle));
         }
       }

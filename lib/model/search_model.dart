@@ -1,7 +1,8 @@
 class SearchModel {
+  String keyword;
   final List<SearchModelItem> data;
 
-  SearchModel({required this.data});
+  SearchModel({required this.data, this.keyword = ''});
 
   factory SearchModel.fromJson(Map<String, dynamic> json) {
     final List<SearchModelItem> data = [];
@@ -13,7 +14,7 @@ class SearchModel {
       }
     }
     return SearchModel(
-        data: data
+        data: data,
     );
   }
 

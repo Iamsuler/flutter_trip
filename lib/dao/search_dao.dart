@@ -22,8 +22,9 @@ class SearchDao {
     if(response.statusCode == 200) {
       Utf8Decoder utf8decoder = Utf8Decoder();
       final result = json.decode(utf8decoder.convert(response.bodyBytes));
-
-      return SearchModel.fromJson(result);
+      SearchModel model = SearchModel.fromJson(result);
+      model.keyword = keyword;
+      return model;
     } else {
       throw Exception('Fail to load home_page');
     }
