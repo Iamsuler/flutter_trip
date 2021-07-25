@@ -29,12 +29,14 @@ class SearchModelItem {
   final String? districtname;
   final String url;
   final String? price;
+  final String? zonename;
 
   SearchModelItem(
       {required this.word,
       required this.type,
       required this.districtname,
       required this.url,
+      required this.zonename,
       required this.price});
 
   factory SearchModelItem.fromJson(Map<String, String> json) {
@@ -43,6 +45,7 @@ class SearchModelItem {
         type: json['type'] ?? '',
         districtname: json['districtname'] ?? '',
         url: json['url'] ?? '',
+        zonename: json['zonename'] ?? '',
         price: json['price'] ?? '');
   }
 

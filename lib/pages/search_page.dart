@@ -182,7 +182,7 @@ class _SearchPageState extends State<SearchPage> {
     List<TextSpan> spans = [];
     spans.addAll(_keywordTextSpan(item.word, keyword));
     spans.add(TextSpan(
-        text: ' ' + (item.districtname ?? '') + ' ',
+        text: ' ${item.districtname ?? ''} ${item.zonename ?? ''}',
         style: TextStyle(fontSize: 12, color: Colors.grey)));
 
     return RichText(text: TextSpan(children: spans));
@@ -195,7 +195,7 @@ class _SearchPageState extends State<SearchPage> {
           text: item.price ?? '',
           style: TextStyle(fontSize: 16, color: Colors.orange)),
       TextSpan(
-          text: ' ' + (item.type ?? ''),
+          text: ' ${item.type ?? ''}',
           style: TextStyle(fontSize: 16, color: Colors.grey)),
     ]));
   }
@@ -211,16 +211,14 @@ class _SearchPageState extends State<SearchPage> {
     List<String> wordList = wordLower.split(keywordLower);
     TextStyle normalStyle = TextStyle(fontSize: 16, color: Colors.black87);
     TextStyle highlightStyle = TextStyle(fontSize: 16, color: Colors.orange);
+    final TextSpan keywordSpan = TextSpan(
+        text: keyword,
+        style: highlightStyle
+    );
 
-    int preIndex = 0;
     for (int i = 0; i < wordList.length; i++) {
       if (i != 0) {
-        preIndex = wordList.indexOf(keywordLower, preIndex);
-        if(preIndex > 0) {
-          spans.add(TextSpan(
-              text: word.substring(preIndex, preIndex + keyword.length),
-              style: highlightStyle));
-        }
+        spans.add(keywordSpan);
       }
 
       String str = wordList[i];
